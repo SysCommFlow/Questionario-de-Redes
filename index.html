@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Redes - SysCommFlow</title>
+    <!-- Ícones dos favoritos -->
+    <link rel="icon" type="image/x-icon" href="public/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="public/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="public/android-chrome-512x512.png">
+    <link rel="manifest" href="public/site.webmanifest">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0066CC;
+            --secondary-blue: #1E88E5;
+            --light-blue: #E3F2FD;
+            --dark-blue: #004080;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--light-blue) 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        .navbar-custom {
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.1);
+            border-left: 5px solid var(--primary-blue);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 102, 204, 0.2);
+        }
+        
+        .question-number {
+            background: var(--primary-blue);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            width: 100%;
+            display: block;
+        }
+        
+        .option-btn:hover {
+            background: var(--light-blue);
+            border-color: var(--primary-blue);
+            transform: translateX(5px);
+        }
+        
+        .option-btn.selected {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        .option-btn.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .option-btn.incorrect {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+        
+        .progress-custom {
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-custom {
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+        
+        .results-card {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            display: none;
+        }
+        
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border: 8px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem auto;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .study-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .topic-card {
+            background: var(--light-blue);
+            border-left: 4px solid var(--primary-blue);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .btn-primary-custom {
+            background: var(--primary-blue);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary-custom:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .network-icon {
+            color: var(--primary-blue);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer {
+            background: var(--dark-blue);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar >
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#home">
+            <img src="public/assets/img/logo/SysCommFlow-logo.png" alt="Logo SysCommFlow" class="img-fluid" style="max-height: 50px; background-color: whitesmoke;">
+            <!-<span class="ms-2 d-none d-lg-inline" style="color: white;">SysCommFlow.INK</span>->
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home"><i class="fas fa-home"></i> Início</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#quiz"><i class="fas fa-question-circle"></i> Questionário</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#study"><i class="fas fa-book"></i> Material de Estudo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about"><i class="fas fa-info-circle"></i> Sobre</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav-->
+
+
+<!-- Navbar Aprimorada -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#home">
+            <div class="logo-container">
+                <img src="public/assets/img/logo/SysCommFlow-logo.png" alt="Logo SysCommFlow" class="navbar-logo">
+            </div>
+            <span class="brand-text ms-2 d-none d-md-inline">SysCommFlow</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home"><i class="fas fa-home"></i> Início</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#quiz"><i class="fas fa-question-circle"></i> Questionário</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#study"><i class="fas fa-book"></i> Material de Estudo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about"><i class="fas fa-info-circle"></i> Sobre</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+/* Estilos específicos para a navbar aprimorada */
+.navbar-custom {
+    background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+    box-shadow: 0 2px 15px rgba(0,0,0,0.15);
+    padding: 0.5rem 0;
+}
+
+.logo-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    padding: 6px 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.logo-container:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.navbar-logo {
+    height: 40px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    filter: brightness(1) contrast(1.1);
+}
+
+.brand-text {
+    color: white !important;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.navbar-brand {
+    margin-right: 2rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover .brand-text {
+    color: #e3f2fd !important;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+    margin: 0 5px;
+    padding: 8px 15px !important;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.navbar-toggler {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 6px 10px;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+}
+
+/* Responsividade melhorada */
+@media (max-width: 768px) {
+    .navbar-custom {
+        padding: 0.3rem 0;
+    }
+    
+    .logo-container {
+        padding: 4px 8px;
+    }
+    
+    .navbar-logo {
+        height: 35px;
+        max-width: 120px;
+    }
+    
+    .brand-text {
+        font-size: 1.1rem;
+    }
+    
+    .navbar-collapse {
+        margin-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-logo {
+        height: 30px;
+        max-width: 100px;
+    }
+    
+    .brand-text {
+        display: none !important;
+    }
+    
+    .logo-container {
+        padding: 3px 6px;
+    }
+}
+</style>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section" style="margin-top: 76px;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">
+                        <i class="fas fa-network-wired network-icon"></i><br>
+                        Questionário de Redes de Computadores
+                    </h1>
+                    <p class="lead mb-4">
+                        Teste seus conhecimentos sobre Gestão de Redes e Sistemas Informáticos. 
+                        Um quiz completo com 25 questões abrangentes sobre protocolos, topologias, 
+                        segurança e administração de redes.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#quiz" class="btn btn-light btn-lg">
+                            <i class="fas fa-play"></i> Iniciar Quiz
+                        </a>
+                        <a href="#study" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-book-open"></i> Material de Estudo
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div class="bg-white p-4 rounded-circle d-inline-block">
+                        <i class="fas fa-server" style="font-size: 5rem; color: var(--primary-blue);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="text-center mb-5">
+                        <h2 class="display-5 fw-bold text-primary">Quiz de Redes</h2>
+                        <p class="lead">25 questões para testar seu conhecimento</p>
+                    </div>
+                    
+                    <!-- Progress Section -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="fw-bold">Progresso: <span id="current-question">0</span> de <span id="total-questions">25</span></span>
+                                <span class="badge bg-primary fs-6">Pontuação: <span id="live-score">0</span></span>
+                            </div>
+                            <div class="progress-custom">
+                                <div class="progress-bar-custom" id="progress-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quiz Container -->
+                    <div id="quiz-container"></div>
+                    
+                    <!-- Results -->
+                    <div class="results-card" id="results">
+                        <h2 class="display-4 mb-4">🎉 Resultado Final</h2>
+                        <div class="score-circle">
+                            <span id="final-score">0/25</span>
+                        </div>
+                        <h3 id="performance-title">Excelente!</h3>
+                        <p class="lead" id="performance-message"></p>
+                        <div class="mt-4">
+                            <button class="btn btn-light btn-lg me-3" onclick="resetQuiz()">
+                                <i class="fas fa-redo"></i> Refazer Quiz
+                            </button>
+                            <button class="btn btn-outline-light btn-lg" onclick="showStudyMaterial()">
+                                <i class="fas fa-book"></i> Material de Estudo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Study Material Section -->
+    <section id="study" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold text-primary">Material de Estudo</h2>
+                <p class="lead">Conceitos essenciais de Redes de Computadores</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="study-section">
+                        <h4 class="text-primary mb-3"><i class="fas fa-layer-group"></i> Modelo OSI</h4>
+                        <div class="topic-card">
+                            <strong>7 Camadas:</strong> Física, Enlace, Rede, Transporte, Sessão, Apresentação, Aplicação
+                        </div>
+                        <div class="topic-card">
+                            <strong>Função:</strong> Padronização da comunicação entre sistemas diferentes
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="study-section">
+                        <h4 class="text-primary mb-3"><i class="fas fa-globe"></i> Protocolos TCP/IP</h4>
+                        <div class="topic-card">
+                            <strong>TCP:</strong> Protocolo confiável, orientado à conexão
+                        </div>
+                        <div class="topic-card">
+                            <strong>UDP:</strong> Protocolo rápido, sem garantia de entrega
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="study-section">
+                        <h4 class="text-primary mb-3"><i class="fas fa-shield-alt"></i> Segurança em Redes</h4>
+                        <div class="topic-card">
+                            <strong>Firewall:</strong> Controla tráfego baseado em regras
+                        </div>
+                        <div class="topic-card">
+                            <strong>VPN:</strong> Conexão segura através de rede pública
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="study-section">
+                        <h4 class="text-primary mb-3"><i class="fas fa-sitemap"></i> Topologias</h4>
+                        <div class="topic-card">
+                            <strong>Estrela:</strong> Todos os dispositivos conectados a um hub central
+                        </div>
+                        <div class="topic-card">
+                            <strong>Anel:</strong> Dispositivos conectados em formato circular
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="display-5 fw-bold text-primary mb-4">Sobre o Quiz</h2>
+                    <p class="lead mb-4">
+                        Este questionário foi desenvolvido para estudantes de Gestão de Redes e Sistemas Informáticos, 
+                        abrangendo os principais conceitos da disciplina de Redes de Computadores.
+                    </p>
+                    <div class="row mt-5">
+                        <div class="col-md-4 mb-3">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-questions" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5>25 Questões</h5>
+                            <p>Cobertura completa dos tópicos essenciais</p>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-brain" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5>Explicações Detalhadas</h5>
+                            <p>Cada resposta inclui explicação educativa</p>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-chart-line" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5>Progresso em Tempo Real</h5>
+                            <p>Acompanhe seu desempenho durante o quiz</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5>SysCommFlow.INK</h5>
+                    <p>Soluções Tecnológicas para Educação em Redes e Sistemas</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p>&copy; 2025 SysCommFlow. Desenvolvido para fins educacionais.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const questions = [
+            {
+                question: "Qual é a função principal de um protocolo de rede?",
+                options: [
+                    "Acelerar a velocidade da internet",
+                    "Definir regras para comunicação entre dispositivos",
+                    "Proteger contra vírus",
+                    "Armazenar dados na nuvem"
+                ],
+                correct: 1,
+                explanation: "Os protocolos de rede estabelecem regras padronizadas para que diferentes dispositivos possam comunicar entre si de forma eficiente e organizada."
+            },
+            {
+                question: "Qual é a diferença entre endereço IP público e privado?",
+                options: [
+                    "IP público é mais rápido que o privado",
+                    "IP público é usado na internet, IP privado é usado em redes locais",
+                    "IP privado é mais seguro que o público",
+                    "Não há diferença entre eles"
+                ],
+                correct: 1,
+                explanation: "IP público é único globalmente e usado para comunicação na internet, enquanto IP privado é usado dentro de redes locais e pode ser reutilizado em diferentes redes."
+            },
+            {
+                question: "O que significa DNS?",
+                options: [
+                    "Domain Name System",
+                    "Data Network Security",
+                    "Digital Network Service",
+                    "Dynamic Network Storage"
+                ],
+                correct: 0,
+                explanation: "DNS (Domain Name System) é o sistema que traduz nomes de domínio legíveis por humanos em endereços IP que os computadores entendem."
+            },
+            {
+                question: "Qual porta padrão usa o protocolo HTTP?",
+                options: [
+                    "21",
+                    "25",
+                    "80",
+                    "443"
+                ],
+                correct: 2,
+                explanation: "O protocolo HTTP usa por padrão a porta 80, enquanto HTTPS usa a porta 443."
+            },
+            {
+                question: "O que é um switch de rede?",
+                options: [
+                    "Um dispositivo que conecta diferentes redes",
+                    "Um dispositivo que conecta dispositivos na mesma rede local",
+                    "Um software de segurança",
+                    "Um tipo de cabo de rede"
+                ],
+                correct: 1,
+                explanation: "Um switch é um dispositivo que conecta múltiplos dispositivos numa rede local (LAN), criando uma rede comutada."
+            },
+            {
+                question: "Qual é a principal diferença entre TCP e UDP?",
+                options: [
+                    "TCP é mais rápido que UDP",
+                    "UDP é mais seguro que TCP",
+                    "TCP garante entrega confiável, UDP é mais rápido mas não garante entrega",
+                    "Não há diferença significativa"
+                ],
+                correct: 2,
+                explanation: "TCP é orientado à conexão e garante entrega confiável dos dados, enquanto UDP é mais rápido mas não garante a entrega nem a ordem dos pacotes."
+            },
+            {
+                question: "O que significa DHCP?",
+                options: [
+                    "Dynamic Host Configuration Protocol",
+                    "Data Host Control Protocol",
+                    "Digital Hardware Configuration Process",
+                    "Dynamic Hardware Control Procedure"
+                ],
+                correct: 0,
+                explanation: "DHCP (Dynamic Host Configuration Protocol) atribui automaticamente endereços IP e outras configurações de rede aos dispositivos."
+            },
+            {
+                question: "Qual é a função de um firewall?",
+                options: [
+                    "Acelerar a conexão à internet",
+                    "Controlar e filtrar o tráfego de rede",
+                    "Armazenar dados da rede",
+                    "Traduzir endereços IP"
+                ],
+                correct: 1,
+                explanation: "Um firewall controla e filtra o tráfego de rede com base em regras de segurança predefinidas, bloqueando acessos não autorizados."
+            },
+            {
+                question: "O que é uma VLAN?",
+                options: [
+                    "Virtual Local Area Network",
+                    "Very Large Area Network",
+                    "Variable Link Access Network",
+                    "Verified Local Access Node"
+                ],
+                correct: 0,
+                explanation: "VLAN (Virtual Local Area Network) permite criar redes lógicas separadas dentro da mesma infraestrutura física de rede."
+            },
+            {
+                question: "Qual é a máscara de sub-rede padrão para uma rede Classe C?",
+                options: [
+                    "255.0.0.0",
+                    "255.255.0.0",
+                    "255.255.255.0",
+                    "255.255.255.255"
+                ],
+                correct: 2,
+                explanation: "A máscara de sub-rede padrão para redes Classe C é 255.255.255.0, que corresponde aos primeiros 24 bits para identificação da rede."
+            },
+            {
+                question: "O que é NAT (Network Address Translation)?",
+                options: [
+                    "Um protocolo de segurança",
+                    "Uma técnica para traduzir endereços IP privados em públicos",
+                    "Um tipo de cabo de rede",
+                    "Um software antivírus"
+                ],
+                correct: 1,
+                explanation: "NAT permite que dispositivos com IPs privados acedam à internet através de um IP público, traduzindo os endereços conforme necessário."
+            },
+            {
+                question: "Qual protocolo é usado para transferência segura de arquivos?",
+                options: [
+                    "FTP",
+                    "HTTP",
+                    "SFTP",
+                    "SMTP"
+                ],
+                correct: 2,
+                explanation: "SFTP (SSH File Transfer Protocol) é a versão segura do FTP, que utiliza criptografia para transferência segura de arquivos."
+            },
+            {
+                question: "O que significa WWW?",
+                options: [
+                    "World Wide Web",
+                    "World Web Works",
+                    "Wide World Web",
+                    "Web World Wide"
+                ],
+                correct: 0,
+                explanation: "WWW significa World Wide Web, o sistema de documentos interligados através de hyperlinks acessíveis via internet."
+            },
+            {
+                question: "Qual é a função do protocolo ARP?",
+                options: [
+                    "Resolver nomes de domínio",
+                    "Traduzir endereços IP em endereços MAC",
+                    "Transferir arquivos",
+                    "Enviar emails"
+                ],
+                correct: 1,
+                explanation: "ARP (Address Resolution Protocol) traduz endereços IP em endereços MAC físicos dos dispositivos na rede local."
+            },
+            {
+                question: "O que é bandwidth em redes?",
+                options: [
+                    "O comprimento do cabo de rede",
+                    "A capacidade máxima de transmissão de dados",
+                    "O número de dispositivos conectados",
+                    "O tempo de resposta da rede"
+                ],
+                correct: 1,
+                explanation: "Bandwidth (largura de banda) é a capacidade máxima de transmissão de dados numa conexão de rede, geralmente medida em bits por segundo."
+            },
+            {
+                question: "Quantas camadas tem o modelo OSI?",
+                options: [
+                    "5 camadas",
+                    "6 camadas", 
+                    "7 camadas",
+                    "8 camadas"
+                ],
+                correct: 2,
+                explanation: "O modelo OSI tem 7 camadas: Física, Enlace de Dados, Rede, Transporte, Sessão, Apresentação e Aplicação."
+            },
+            {
+                question: "Qual é a topologia de rede mais comum em escritórios?",
+                options: [
+                    "Barramento",
+                    "Anel",
+                    "Estrela",
+                    "Malha"
+                ],
+                correct: 2,
+                explanation: "A topologia estrela é a mais comum, onde todos os dispositivos se conectam a um ponto central (switch ou hub)."
+            },
+            {
+                question: "O que é um roteador?",
+                options: [
+                    "Dispositivo que conecta dispositivos na mesma rede",
+                    "Dispositivo que conecta diferentes redes",
+                    "Software de segurança",
+                    "Protocolo de rede"
+                ],
+                correct: 1,
+                explanation: "Um roteador conecta diferentes redes e determina o melhor caminho para encaminhar pacotes de dados entre elas."
+            },
+            {
+                question: "Qual comando é usado para testar conectividade de rede no Windows?",
+                options: [
+                    "ipconfig",
+                    "ping",
+                    "netstat",
+                    "tracert"
+                ],
+                correct: 1,
+                explanation: "O comando 'ping' envia pacotes ICMP para testar a conectividade e medir o tempo de resposta entre dispositivos."
+            },
+            {
+                question: "O que significa VPN?",
+                options: [
+                    "Virtual Private Network",
+                    "Very Protected Network",
+                    "Variable Public Network",
+                    "Verified Private Node"
+                ],
+                correct: 0,
+                explanation: "VPN (Virtual Private Network) cria uma conexão segura e criptografada através de uma rede pública como a internet."
+            },
+            {
+                question: "Qual é a diferença entre hub e switch?",
+                options: [
+                    "Não há diferença",
+                    "Hub é mais rápido que switch",
+                    "Switch cria domínios de colisão separados, hub não",
+                    "Hub é mais seguro que switch"
+                ],
+                correct: 2,
+                explanation: "Um switch cria domínios de colisão separados para cada porta, enquanto um hub compartilha um único domínio de colisão."
+            },
+            {
+                question: "O que é endereço MAC?",
+                options: [
+                    "Endereço de software configurável",
+                    "Endereço físico único da placa de rede",
+                    "Protocolo de rede",
+                    "Tipo de cabo de rede"
+                ],
+                correct: 1,
+                explanation: "MAC (Media Access Control) é o endereço físico único e permanente gravado na placa de rede durante a fabricação."
+            },
+            {
+                question: "Qual protocolo é usado para envio de emails?",
+                options: [
+                    "HTTP",
+                    "FTP",
+                    "SMTP",
+                    "DNS"
+                ],
+                correct: 2,
+                explanation: "SMTP (Simple Mail Transfer Protocol) é o protocolo padrão usado para envio de emails entre servidores."
+            },
+            {
+                question: "O que é latência em redes?",
+                options: [
+                    "Velocidade de transmissão",
+                    "Tempo de atraso na comunicação",
+                    "Número de dispositivos conectados",
+                    "Tipo de cabo usado"
+                ],
+                correct: 1,
+                explanation: "Latência é o tempo de atraso entre o envio de um dado e sua chegada ao destino, geralmente medida em milissegundos."
+            },
+            {
+                question: "O que significa QoS em redes?",
+                options: [
+                    "Quality of Service",
+                    "Quick Online System",
+                    "Quantum Office Security",
+                    "Query Optimization Service"
+                ],
+                correct: 0,
+                explanation: "QoS (Quality of Service) são técnicas para gerenciar e priorizar o tráfego de rede, garantindo performance adequada para aplicações críticas."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answeredQuestions = 0;
+
+        function loadQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-card';
+                questionDiv.innerHTML = `
+                    <div class="question-number">${index + 1}</div>
+                    <h5 class="question-title mb-4">${q.question}</h5>
+                    <div class="options mb-3">
+                        ${q.options.map((option, optionIndex) => `
+                            <button class="option-btn" onclick="selectOption(${index}, ${optionIndex})">
+                                <span class="option-letter">${String.fromCharCode(65 + optionIndex)})</span> ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="alert feedback" id="feedback-${index}" style="display: none;"></div>
+                `;
+                container.appendChild(questionDiv);
+            });
+            
+            updateCounters();
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            const questionCard = document.querySelectorAll('.question-card')[questionIndex];
+            const options = questionCard.querySelectorAll('.option-btn');
+            const feedback = document.getElementById(`feedback-${questionIndex}`);
+            
+            // Se já foi respondida, não fazer nada
+            if (options[0].classList.contains('correct') || options[0].classList.contains('incorrect')) {
+                return;
+            }
+            
+            // Marcar todas as opções como respondidas
+            options.forEach((option, index) => {
+                if (index === questions[questionIndex].correct) {
+                    option.classList.add('correct');
+                    option.innerHTML = `<i class="fas fa-check-circle me-2"></i>${option.innerHTML}`;
+                } else if (index === optionIndex) {
+                    option.classList.add('incorrect', 'selected');
+                    option.innerHTML = `<i class="fas fa-times-circle me-2"></i>${option.innerHTML}`;
+                } else {
+                    option.style.opacity = '0.5';
+                }
+                option.style.cursor = 'default';
+                option.onclick = null;
+            });
+            
+            // Mostrar feedback
+            const isCorrect = optionIndex === questions[questionIndex].correct;
+            feedback.style.display = 'block';
+            feedback.className = `alert feedback ${isCorrect ? 'alert-success' : 'alert-danger'}`;
+            feedback.innerHTML = `
+                <div class="d-flex align-items-start">
+                    <i class="fas ${isCorrect ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'} me-2 mt-1"></i>
+                    <div>
+                        <strong>${isCorrect ? '✓ Correto!' : '✗ Incorreto!'}</strong><br>
+                        <small>${questions[questionIndex].explanation}</small>
+                    </div>
+                </div>
+            `;
+            
+            if (isCorrect) {
+                score++;
+            }
+            
+            answeredQuestions++;
+            updateCounters();
+            updateProgress();
+            updateLiveScore();
+            
+            if (answeredQuestions === questions.length) {
+                setTimeout(showResults, 1500);
+            }
+        }
+
+        function updateCounters() {
+            document.getElementById('current-question').textContent = answeredQuestions;
+            document.getElementById('total-questions').textContent = questions.length;
+        }
+
+        function updateProgress() {
+            const progress = (answeredQuestions / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        function updateLiveScore() {
+            document.getElementById('live-score').textContent = score;
+        }
+
+        function showResults() {
+            const resultsDiv = document.getElementById('results');
+            const finalScore = document.getElementById('final-score');
+            const performanceTitle = document.getElementById('performance-title');
+            const performanceMessage = document.getElementById('performance-message');
+            
+            finalScore.textContent = `${score}/${questions.length}`;
+            
+            const percentage = (score / questions.length) * 100;
+            let title = '';
+            let message = '';
+            
+            if (percentage >= 90) {
+                title = '🏆 Excelente!';
+                message = 'Parabéns! Tens um domínio excepcional sobre redes de computadores. Estás pronto para desafios avançados!';
+            } else if (percentage >= 80) {
+                title = '🎯 Muito Bom!';
+                message = 'Ótimo desempenho! Demonstraste uma compreensão sólida dos conceitos fundamentais de redes.';
+            } else if (percentage >= 70) {
+                title = '👍 Bom Trabalho!';
+                message = 'Bom resultado! Tens uma base sólida, mas ainda há espaço para aprofundar alguns conceitos.';
+            } else if (percentage >= 60) {
+                title = '📚 Continue Estudando!';
+                message = 'Resultado razoável. Recomendamos revisar o material de estudo e praticar mais.';
+            } else {
+                title = '💪 Não Desistas!';
+                message = 'Este é apenas o início da tua jornada de aprendizagem. Estuda o material e tenta novamente!';
+            }
+            
+            performanceTitle.textContent = title;
+            performanceMessage.textContent = message;
+            resultsDiv.style.display = 'block';
+            
+            // Scroll para os resultados
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answeredQuestions = 0;
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('progress-bar').style.width = '0%';
+            document.getElementById('live-score').textContent = '0';
+            loadQuiz();
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showStudyMaterial() {
+            document.getElementById('study').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Smooth scrolling para links da navbar
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80; // Compensar altura da navbar
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Highlight da navbar baseado na seção atual
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Inicializar o quiz quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadQuiz();
+            
+            // Animação de entrada para os cards
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = Math.random() * 0.3 + 's';
+                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observar todos os cards de questão
+            setTimeout(() => {
+                document.querySelectorAll('.question-card, .study-section').forEach(card => {
+                    observer.observe(card);
+                });
+            }, 100);
+        });
+
+        // Adicionar efeito de partículas no hero
+        function createParticles() {
+            const hero = document.querySelector('.hero-section');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: 2px;
+                    height: 2px;
+                    background: rgba(255,255,255,0.3);
+                    border-radius: 50%;
+                    animation: float ${3 + Math.random() * 4}s infinite linear;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                `;
+                hero.appendChild(particle);
+            }
+        }
+
+        // CSS para animação das partículas
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+                100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+            }
+            
+            .animate__fadeInUp {
+                animation-duration: 0.8s;
+                animation-fill-mode: both;
+                animation-name: fadeInUp;
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translate3d(0, 40px, 0);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate3d(0, 0, 0);
+                }
+            }
+            
+            .question-card {
+                transition: all 0.3s ease;
+            }
+            
+            .navbar-nav .nav-link.active {
+                color: #ffffff !important;
+                font-weight: bold;
+            }
+            
+            .option-letter {
+                background: var(--primary-blue);
+                color: white;
+                border-radius: 50%;
+                width: 25px;
+                height: 25px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.8rem;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+            
+            .option-btn.correct .option-letter {
+                background: #28a745;
+            }
+            
+            .option-btn.incorrect .option-letter {
+                background: #dc3545;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Criar partículas após o carregamento
+        setTimeout(createParticles, 1000);
+    </script>
+</body>
+</html>
